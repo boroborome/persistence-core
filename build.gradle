@@ -1,0 +1,29 @@
+
+group = 'com.happy3w'
+version = '0.0.1'
+ext {
+	artifactId = "persistence-core"
+}
+
+apply plugin: 'java-library'
+//apply from: 'maven-publish.gradle'
+
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.2'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.2'
+
+	testImplementation 'junit:junit:4.12'
+	testCompileOnly 'org.projectlombok:lombok:1.18.2'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
+}
