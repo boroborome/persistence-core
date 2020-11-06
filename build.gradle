@@ -3,19 +3,25 @@ group = 'com.happy3w'
 version = '0.0.1'
 ext {
 	artifactId = "persistence-core"
+
+	upload = 'enable'
+	description = "Some core kits for persistence use"
+	url = 'https://github.com/boroborome/persistence-core'
+	developerConnection = 'scm:git@github.com:boroborome/persistence-core.git'
 }
 
 apply plugin: 'java-library'
-//apply from: 'maven-publish.gradle'
 
 sourceCompatibility = '1.8'
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.2'
+	api 'com.happy3w:toolkits:0.0.3'
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.2'
 
@@ -24,6 +30,4 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
 }
 
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
-}
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
