@@ -3,6 +3,8 @@ package com.happy3w.persistence.core.rowdata.obj;
 import com.happy3w.persistence.core.rowdata.page.IDataPage;
 import com.happy3w.persistence.core.rowdata.page.IReadDataPage;
 import com.happy3w.persistence.core.rowdata.page.IWriteDataPage;
+import com.happy3w.persistence.core.rowdata.RdRowIterator;
+import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.utils.ListUtils;
 
@@ -48,11 +50,11 @@ public class ObjRdAssistant {
         return loadPage(dataType, w -> w.getData());
     }
 
-    public <T> List<T> loadPage(Class<T> dataType, Function<ObjRdRowWrapper<T>, T> checker) {
+    public <T> List<T> loadPage(Class<T> dataType, Function<RdRowWrapper<T>, T> checker) {
         ObjRdTableDef<T> objDefinition = ObjRdTableDef.from(dataType);
 
         List<T> allData = new ArrayList<>();
-        ObjRdRowIterator<T> dataIt = ObjRdRowIterator.from(getReadPage(), objDefinition, messageRecorder);
+        RdRowIterator<T> dataIt = RdRowIterator.from(getReadPage(), objDefinition, messageRecorder);
         dataIt.forEachRemaining(w -> {
             T data = checker.apply(w);
             if (data != null) {
@@ -78,11 +80,13 @@ public class ObjRdAssistant {
         ObjRdTableDef<T> objDef = ObjRdTableDef.from(dataType);
 
         List<String> titles = ListUtils.map(objDef.getColumns(), ObjRdColumnDef::getTitle);
-        getWritePage().writeListLine(titles);
+        getWritePage().writeList(titles)
+            .newLine();
 
         datas.forEach(data -> {
             List<Object> values = ListUtils.map(objDef.getColumns(), c -> c.getAccessor().getValue(data));
-            getWritePage().writeListLine(values);
+            getWritePage().writeList(values)
+                .newLine();
         });
         return this;
     }

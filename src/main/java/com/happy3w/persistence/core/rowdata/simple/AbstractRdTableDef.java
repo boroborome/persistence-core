@@ -4,6 +4,7 @@ import com.happy3w.persistence.core.rowdata.ExtConfigs;
 import com.happy3w.persistence.core.rowdata.IRdColumnDef;
 import com.happy3w.persistence.core.rowdata.IRdConfig;
 import com.happy3w.persistence.core.rowdata.IRdTableDef;
+import com.happy3w.persistence.core.rowdata.UnknownColumnStrategy;
 import com.happy3w.toolkits.utils.ListUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,52 +15,56 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractRdTableDef<T extends IRdColumnDef, M extends AbstractRdTableDef<T, M>> implements IRdTableDef<T> {
+public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, Self extends AbstractRdTableDef<RowData, ColType, Self>>
+        implements IRdTableDef<RowData, ColType> {
     @Getter
     @Setter
-    protected List<T> columns;
+    protected List<ColType> columns;
 
     @Getter
     @Setter
     protected ExtConfigs extConfigs = new ExtConfigs();
 
+    @Getter
+    @Setter
+    protected UnknownColumnStrategy unknownColumnStrategy = UnknownColumnStrategy.ignore;
 
-    protected Map<String, T> titleColumnMap;
-    protected Map<String, T> codeColumnMap;
+    protected Map<String, ColType> titleColumnMap;
+    protected Map<String, ColType> codeColumnMap;
 
-    public T findByCode(String field) {
+    public ColType findByCode(String field) {
         return getCodeColumnMap().get(field);
     }
 
-    protected Map<String, T> getCodeColumnMap() {
+    protected Map<String, ColType> getCodeColumnMap() {
         if (codeColumnMap == null) {
             codeColumnMap = ListUtils.toMap(columns, IRdColumnDef::getCode);
         }
         return codeColumnMap;
     }
 
-    public T findByTitle(String title) {
+    public ColType findByTitle(String title) {
         if (titleColumnMap == null) {
             titleColumnMap = ListUtils.toMap(columns, IRdColumnDef::getTitle);
         }
         return titleColumnMap.get(title);
     }
 
-    public <C extends IRdConfig> AbstractRdTableDef<T, M> config(C config) {
+    public <C extends IRdConfig> AbstractRdTableDef<RowData, ColType, Self> config(C config) {
         extConfigs.save(config);
         return this;
     }
 
-    public AbstractRdTableDef<T, M> filterColumns(String... columnCode) {
+    public AbstractRdTableDef<RowData, ColType, Self> filterColumns(String... columnCode) {
         return filterColumns(Arrays.asList(columnCode));
     }
 
-    public AbstractRdTableDef<T, M> filterColumns(Collection<String> columnCodes) {
-        Map<String, T> codeColMap = getCodeColumnMap();
-        List<T> newColumns = new ArrayList<>();
+    public AbstractRdTableDef<RowData, ColType, Self> filterColumns(Collection<String> columnCodes) {
+        Map<String, ColType> codeColMap = getCodeColumnMap();
+        List<ColType> newColumns = new ArrayList<>();
         List<String> unknownColumns = new ArrayList<>();
         for (String code : columnCodes) {
-            T colDef = codeColMap.get(code);
+            ColType colDef = codeColMap.get(code);
             if (colDef == null) {
                 unknownColumns.add(code);
             }

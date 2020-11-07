@@ -1,5 +1,6 @@
 package com.happy3w.persistence.core.rowdata.obj;
 
+import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.utils.StringUtils;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.Setter;
 public class ObjRdValueValidator {
     private boolean notEmpty;
 
-    public <T> void validate(Object value, ObjRdColumnDef columnDefinition, ObjRdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
+    public <T> void validate(Object value, ObjRdColumnDef columnDefinition, RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
         if (notEmpty && isEmptyValue(value)) {
             messageRecorder.appendError(
                     "Field:{0} is required at line {1} in page {2}.",

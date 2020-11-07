@@ -3,6 +3,8 @@ package com.happy3w.persistence.core.rowdata.obj;
 import com.happy3w.persistence.core.rowdata.ExtConfigs;
 import com.happy3w.persistence.core.rowdata.IAnnotationRdConfig;
 import com.happy3w.persistence.core.rowdata.IRdConfig;
+import com.happy3w.persistence.core.rowdata.RdRowWrapper;
+import com.happy3w.persistence.core.rowdata.UnknownColumnStrategy;
 import com.happy3w.persistence.core.rowdata.config.ObjRdConfig;
 import com.happy3w.persistence.core.rowdata.config.ObjRdConfigImpl;
 import com.happy3w.persistence.core.rowdata.simple.AbstractRdTableDef;
@@ -36,16 +38,15 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @Builder
-public class ObjRdTableDef<T> extends AbstractRdTableDef<ObjRdColumnDef, ObjRdTableDef<T>> {
+public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjRdTableDef<T>> {
     private Class<T> dataType;
-    private ObjRdUnknownColumn.Strategy unexpectedColumnStrategy = ObjRdUnknownColumn.Strategy.ignore;
     private Method postAction;
 
     private ObjRdTableDef(Class<T> dataType) {
         this.dataType = dataType;
     }
 
-    public void runPostAction(ObjRdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
+    public void runPostAction(RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
         if (postAction == null) {
             return;
         }
@@ -61,10 +62,10 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<ObjRdColumnDef, ObjRdTa
         }
     }
 
-    private List<Object> createPostActionParams(ObjRdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
+    private List<Object> createPostActionParams(RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
         List<Object> params = new ArrayList<>();
         for (Class paramType : postAction.getParameterTypes()) {
-            if (paramType == ObjRdRowWrapper.class) {
+            if (paramType == RdRowWrapper.class) {
                 params.add(wrapper);
             } else if (paramType == MessageRecorder.class) {
                 params.add(messageRecorder);
@@ -102,7 +103,9 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<ObjRdColumnDef, ObjRdTa
         return this;
     }
 
-    public List readColumnValues(T data) {
+
+    @Override
+    public List<Object> toColumnValues(T data) {
         List lst = new ArrayList<>();
         for (ObjRdColumnDef colDef : columns) {
             lst.add(colDef.getAccessor().getValue(data));
@@ -110,12 +113,38 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<ObjRdColumnDef, ObjRdTa
         return lst;
     }
 
+    @Override
+    public RdRowWrapper<T> toRowData(RdRowWrapper<List<Object>> columnValuesWrapper, MessageRecorder messageRecorder) {
+        try {
+            T data = dataType.newInstance();
+            RdRowWrapper<T> rowDataWrapper = columnValuesWrapper.withNewData(data);
+            for (int i = 0; i < columns.size(); i++) {
+                ObjRdColumnDef column = columns.get(i);
+                Object columnValue = columnValuesWrapper.getData().get(i);
+
+                validateValue(column, columnValue, rowDataWrapper, messageRecorder);
+                column.getAccessor().getSetMethod().invoke(data, columnValue);
+            }
+            runPostAction(rowDataWrapper, messageRecorder);
+            return rowDataWrapper;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new UnsupportedOperationException("Failed to create instance " + dataType, e);
+        }
+    }
+
+    private void validateValue(ObjRdColumnDef columnDef, Object curValue, RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
+        ObjRdValueValidator validator = columnDef.getValidator();
+        if (validator != null) {
+            validator.validate(curValue, columnDef, wrapper, messageRecorder);
+        }
+    }
+
     public static <T> ObjRdTableDef<T> from(Class<T> dataType) {
         ObjRdTableDef<T> objectDefinition = new ObjRdTableDef<>(dataType);
 
         objectDefinition.columns = createColumnDefs(dataType);
         objectDefinition.postAction = findPostAction(dataType);
-        objectDefinition.unexpectedColumnStrategy = findUnexpectedColumnStrategy(dataType);
+        objectDefinition.unknownColumnStrategy = findUnknownColumnStrategy(dataType);
         objectDefinition.extConfigs = createExtConfigs(dataType.getDeclaredAnnotations());
 
         return objectDefinition;
@@ -171,10 +200,10 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<ObjRdColumnDef, ObjRdTa
                 .build();
     }
 
-    private static <T> ObjRdUnknownColumn.Strategy findUnexpectedColumnStrategy(Class<T> dataType) {
+    private static <T> UnknownColumnStrategy findUnknownColumnStrategy(Class<T> dataType) {
         ObjRdUnknownColumn unexpectedColumns = dataType.getAnnotation(ObjRdUnknownColumn.class);
         return unexpectedColumns == null
-                ? ObjRdUnknownColumn.Strategy.ignore
+                ? UnknownColumnStrategy.ignore
                 : unexpectedColumns.strategy();
     }
 
@@ -212,5 +241,4 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<ObjRdColumnDef, ObjRdTa
         }
         return postAction;
     }
-
 }

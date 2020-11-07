@@ -16,5 +16,19 @@ import lombok.Setter;
 public class RdColumnDef implements IRdColumnDef {
     private String code;
     private String title;
-    private ExtConfigs extConfigs = new ExtConfigs();
+    private Class<?> dataType;
+    private boolean required;
+    private ExtConfigs extConfigs;
+
+    public RdColumnDef(String code, String title) {
+        this(code, title, String.class, false);
+    }
+
+    public RdColumnDef(String code, String title, Class<?> dataType, boolean required) {
+        this.code = code;
+        this.title = title;
+        this.dataType = dataType;
+        this.required = required;
+        extConfigs = new ExtConfigs();
+    }
 }

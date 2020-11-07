@@ -40,6 +40,11 @@ public class ObjRdColumnDef implements IRdColumnDef {
         return accessor.getFieldName();
     }
 
+    @Override
+    public Class<?> getDataType() {
+        return accessor.getDataType();
+    }
+
     /**
      * 根据fieldMap中内容创建一组column
      * @param fieldMap 需要创建column definition的字段信息，key为字段名称，value为title
