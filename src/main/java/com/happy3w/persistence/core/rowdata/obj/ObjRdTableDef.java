@@ -18,7 +18,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,21 +47,13 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
         if (postAction == null) {
             return;
         }
-
-        try {
-            List<Object> params = createPostActionParams(wrapper, messageRecorder);
-            postAction.invoke(wrapper.getData(), params.toArray());
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            messageRecorder.appendError("Failed to run post action of {0} for object {1}, Error is :{2}",
-                    dataType, wrapper.getData(), e.getMessage());
-            throw new RuntimeException(MessageFormat.format("Failed to run post action of {0} for object {1}, Error is :{2}",
-                    dataType, wrapper.getData(), e.getMessage(), e));
-        }
+        List<Object> params = createMethodParams(postAction.getParameterTypes(), wrapper, messageRecorder);
+        ReflectUtil.invoke(postAction, wrapper.getData(), params.toArray());
     }
 
-    private List<Object> createPostActionParams(RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
+    private List<Object> createMethodParams(Class[] paramTypes, RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
         List<Object> params = new ArrayList<>();
-        for (Class paramType : postAction.getParameterTypes()) {
+        for (Class paramType : paramTypes) {
             if (paramType == RdRowWrapper.class) {
                 params.add(wrapper);
             } else if (paramType == MessageRecorder.class) {
@@ -121,6 +112,7 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
                 Object columnValue = columnValuesWrapper.getData().get(i);
 
                 validateValue(column, columnValue, rowDataWrapper, messageRecorder);
+                saveColumnValue(column, columnValue, rowDataWrapper, messageRecorder);
                 column.getAccessor().getSetMethod().invoke(data, columnValue);
             }
             runPostAction(rowDataWrapper, messageRecorder);
@@ -128,6 +120,17 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new UnsupportedOperationException("Failed to create instance " + dataType, e);
         }
+    }
+
+    private void saveColumnValue(
+            ObjRdColumnDef column,
+            Object columnValue,
+            RdRowWrapper<T> wrapper,
+            MessageRecorder messageRecorder) {
+        Method setter = column.getAccessor().getSetMethod();
+        List<Object> params = createMethodParams(setter.getParameterTypes(), wrapper, messageRecorder);
+        params.set(0, columnValue);
+        ReflectUtil.invoke(setter, wrapper.getData(), params.toArray());
     }
 
     private void validateValue(ObjRdColumnDef columnDef, Object curValue, RdRowWrapper<T> wrapper, MessageRecorder messageRecorder) {
