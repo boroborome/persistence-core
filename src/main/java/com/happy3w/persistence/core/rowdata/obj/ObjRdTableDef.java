@@ -18,6 +18,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -203,14 +204,26 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
     }
 
     private static ObjRdValueAccessor createObjRdValueAccessor(Method[] methods, Field field, ObjRdColumn objRdColumn) {
-        ObjRdValueAccessor accessor = null;
+        ObjRdValueAccessor accessor;
+        Method getter;
+        Method setter;
         if (StringUtils.isEmpty(objRdColumn.getter()) || StringUtils.isEmpty(objRdColumn.setter())) {
             accessor = ObjRdValueAccessor.from(field);
+            getter = chooseMethod(objRdColumn.getter(), accessor.getGetMethod(), methods);
+            setter = chooseMethod(objRdColumn.setter(), accessor.getSetMethod(), methods);
+        } else {
+            getter = ReflectUtil.findMethod(objRdColumn.getter(), methods);
+            setter = ReflectUtil.findMethod(objRdColumn.setter(), methods);
         }
-        Method getter = chooseMethod(objRdColumn.getter(), accessor.getGetMethod(), methods);
-        Method setter = chooseMethod(objRdColumn.setter(), accessor.getSetMethod(), methods);
-        if (accessor == null || accessor.getGetMethod() != getter || accessor.getSetMethod() != setter) {
-            accessor = new ObjRdValueAccessor(field.getName(), getter.getReturnType(), getter, setter);
+        accessor = new ObjRdValueAccessor(field.getName(), getter.getReturnType(), getter, setter);
+
+        if (getter.getReturnType() != setter.getParameterTypes()[0]) {
+            throw new UnsupportedOperationException(
+                    MessageFormat.format("The type of getter and setter on property({0}.{1}) are not the same type.Getter is {2}, Setter is {3}.",
+                            field.getDeclaringClass(),
+                            field.getName(),
+                            getter.getReturnType(),
+                            setter.getParameterTypes()[0]));
         }
         return accessor;
     }
