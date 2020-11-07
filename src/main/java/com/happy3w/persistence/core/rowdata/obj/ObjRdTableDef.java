@@ -153,7 +153,7 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
     private static <T> ExtConfigs createExtConfigs(Annotation[] annotations) {
         Map<Class<? extends IRdConfig>, IRdConfig> extConfigs = new HashMap<>();
         for (Annotation configAnnotation : annotations) {
-            RdConfigMap mapAnnotation = configAnnotation.getClass().getDeclaredAnnotation(RdConfigMap.class);
+            ObjRdConfigMap mapAnnotation = configAnnotation.getClass().getDeclaredAnnotation(ObjRdConfigMap.class);
             if (mapAnnotation == null) {
                 continue;
             }
