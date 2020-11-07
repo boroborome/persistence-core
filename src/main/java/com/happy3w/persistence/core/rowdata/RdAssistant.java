@@ -29,8 +29,6 @@ import java.util.stream.Stream;
  *     </ul>
  */
 public class RdAssistant {
-
-
     /**
      * 从当前位置读取数据。当前位置包含Title
      * @param tableDef 行数据定义

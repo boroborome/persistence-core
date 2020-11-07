@@ -130,12 +130,6 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
         return rowDataWrapper;
     }
 
-    public Stream<RdRowWrapper<T>> stream() {
-        Iterable<RdRowWrapper<T>> iterable = () -> this;
-        return StreamSupport.stream(iterable.spliterator(), false);
-    }
-
-
     public static <T> RdRowIterator<T> from(
             IReadDataPage dataPage,
             IRdTableDef<T, ? extends IRdColumnDef> tableDef) {
