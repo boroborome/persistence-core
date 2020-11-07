@@ -16,7 +16,6 @@ import lombok.Setter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -105,22 +104,17 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
 
     @Override
     public RdRowWrapper<T> toRowData(RdRowWrapper<List<Object>> columnValuesWrapper, MessageRecorder messageRecorder) {
-        try {
-            T data = dataType.newInstance();
-            RdRowWrapper<T> rowDataWrapper = columnValuesWrapper.withNewData(data);
-            for (int i = 0; i < columns.size(); i++) {
-                ObjRdColumnDef column = columns.get(i);
-                Object columnValue = columnValuesWrapper.getData().get(i);
+        T data = ReflectUtil.newInstance(dataType);
+        RdRowWrapper<T> rowDataWrapper = columnValuesWrapper.withNewData(data);
+        for (int i = 0; i < columns.size(); i++) {
+            ObjRdColumnDef column = columns.get(i);
+            Object columnValue = columnValuesWrapper.getData().get(i);
 
-                validateValue(column, columnValue, rowDataWrapper, messageRecorder);
-                saveColumnValue(column, columnValue, rowDataWrapper, messageRecorder);
-                column.getAccessor().getSetMethod().invoke(data, columnValue);
-            }
-            runPostAction(rowDataWrapper, messageRecorder);
-            return rowDataWrapper;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new UnsupportedOperationException("Failed to create instance " + dataType, e);
+            validateValue(column, columnValue, rowDataWrapper, messageRecorder);
+            saveColumnValue(column, columnValue, rowDataWrapper, messageRecorder);
         }
+        runPostAction(rowDataWrapper, messageRecorder);
+        return rowDataWrapper;
     }
 
     private void saveColumnValue(
