@@ -234,7 +234,10 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
         Method[] methods = dataType.getDeclaredMethods();
         for (Method method : methods) {
             ObjRdPostAction postActionAnnotation = method.getAnnotation(ObjRdPostAction.class);
-            if (postActionAnnotation != null && postAction != null) {
+            if (postActionAnnotation == null) {
+                continue;
+            }
+            if (postAction != null) {
                 throw new UnsupportedOperationException("Unsupported multiple ObjRdPostAction configured in one class:" + dataType);
             }
             postAction = method;
