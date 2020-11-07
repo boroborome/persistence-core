@@ -32,7 +32,10 @@ public class RdAssistant {
     /**
      * 从当前位置读取数据。当前位置包含Title
      * @param tableDef 行数据定义
+     * @param page 包含需要读取数据的页面
+     * @param messageRecorder 消息记录器
      * @param <D> 行数据的类型
+     * @param <P> 包含需要读取数据的页面类型
      * @return 以流的形式返回所有行数据
      */
     public static <D, P extends IReadDataPage> Stream<RdRowWrapper<D>> readRows(
