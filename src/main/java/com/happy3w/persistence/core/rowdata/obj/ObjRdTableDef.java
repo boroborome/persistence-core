@@ -5,8 +5,6 @@ import com.happy3w.persistence.core.rowdata.IAnnotationRdConfig;
 import com.happy3w.persistence.core.rowdata.IRdConfig;
 import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.persistence.core.rowdata.UnknownColumnStrategy;
-import com.happy3w.persistence.core.rowdata.config.ObjRdConfig;
-import com.happy3w.persistence.core.rowdata.config.ObjRdConfigImpl;
 import com.happy3w.persistence.core.rowdata.simple.AbstractRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.utils.ReflectUtil;
@@ -153,7 +151,7 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
     private static <T> ExtConfigs createExtConfigs(Annotation[] annotations) {
         Map<Class<? extends IRdConfig>, IRdConfig> extConfigs = new HashMap<>();
         for (Annotation configAnnotation : annotations) {
-            ObjRdConfigMap mapAnnotation = configAnnotation.getClass().getDeclaredAnnotation(ObjRdConfigMap.class);
+            ObjRdConfigMap mapAnnotation = configAnnotation.annotationType().getDeclaredAnnotation(ObjRdConfigMap.class);
             if (mapAnnotation == null) {
                 continue;
             }
@@ -177,17 +175,6 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
             columns.add(columnDef);
         }
         return columns;
-    }
-
-    public static ObjRdConfigImpl createExtConfig(ObjRdConfig rdConfig) {
-        if (rdConfig == null) {
-            return null;
-        }
-
-        ObjRdConfigImpl newConfig = new ObjRdConfigImpl();
-        newConfig.initBy(rdConfig);
-
-        return newConfig;
     }
 
     private static ObjRdColumnDef createColumnDefinition(ObjRdColumn objRdColumn, Field field, Method[] methods) {

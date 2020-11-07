@@ -9,11 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
-@ObjRdConfigMap(ObjRdConfigImpl.class)
-public @interface ObjRdConfig {
-    String dateFormatPattern() default "";
-
-    String numFormat() default "";
-
-    String zoneId() default "";
+@ObjRdConfigMap(DateZoneIdImpl.class)
+public @interface DateZoneId {
+    String value();
 }
