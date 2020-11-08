@@ -17,4 +17,9 @@ public class NumFormatImpl implements IAnnotationRdConfig<NumFormat> {
     public void initBy(NumFormat annotation) {
         this.format = annotation.value();
     }
+
+    @Override
+    public void buildContentKey(StringBuilder builder) {
+        builder.append(format);
+    }
 }

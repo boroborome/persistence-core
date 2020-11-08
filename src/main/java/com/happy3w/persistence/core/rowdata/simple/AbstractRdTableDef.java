@@ -51,7 +51,7 @@ public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, 
     }
 
     public <C extends IRdConfig> AbstractRdTableDef<RowData, ColType, Self> config(C config) {
-        extConfigs.save(config);
+        extConfigs.regist(config);
         return this;
     }
 

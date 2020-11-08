@@ -92,7 +92,6 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
         return this;
     }
 
-
     @Override
     public List<Object> toColumnValues(T data) {
         List lst = new ArrayList<>();

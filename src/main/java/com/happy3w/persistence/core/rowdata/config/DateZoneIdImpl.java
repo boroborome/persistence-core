@@ -17,4 +17,9 @@ public class DateZoneIdImpl implements IAnnotationRdConfig<DateZoneId> {
     public void initBy(DateZoneId annotation) {
         this.zoneId = annotation.value();
     }
+
+    @Override
+    public void buildContentKey(StringBuilder builder) {
+        builder.append(zoneId);
+    }
 }

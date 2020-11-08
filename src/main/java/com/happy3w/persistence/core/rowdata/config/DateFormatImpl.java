@@ -17,4 +17,9 @@ public class DateFormatImpl implements IAnnotationRdConfig<DateFormat> {
     public void initBy(DateFormat annotation) {
         this.format = annotation.value();
     }
+
+    @Override
+    public void buildContentKey(StringBuilder builder) {
+        builder.append(format);
+    }
 }

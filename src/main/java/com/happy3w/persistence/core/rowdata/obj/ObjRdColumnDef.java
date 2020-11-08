@@ -31,7 +31,7 @@ public class ObjRdColumnDef implements IRdColumnDef {
     private ExtConfigs extConfigs = new ExtConfigs();
 
     public <T extends IRdConfig> ObjRdColumnDef extConfig(T config) {
-        extConfigs.save(config);
+        extConfigs.regist(config);
         return this;
     }
 
