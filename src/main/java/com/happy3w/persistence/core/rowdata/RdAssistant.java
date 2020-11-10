@@ -45,7 +45,7 @@ public class RdAssistant {
     }
 
     public static <D, P extends IReadDataPage> Stream<D> readObjs(
-            IRdTableDef<D, ?> tableDef, P page, MessageRecorder messageRecorder) {
+            P page, IRdTableDef<D, ?> tableDef, MessageRecorder messageRecorder) {
         return readRows(tableDef, page, messageRecorder)
                 .map(RdRowWrapper::getData);
     }
