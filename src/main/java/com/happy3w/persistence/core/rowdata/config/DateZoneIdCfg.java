@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DateZoneIdImpl implements IAnnotationRdConfig<DateZoneId> {
+public class DateZoneIdCfg implements IAnnotationRdConfig<DateZoneId> {
     private String zoneId;
     @Override
     public void initBy(DateZoneId annotation) {

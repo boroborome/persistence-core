@@ -2,11 +2,11 @@ package com.happy3w.persistence.core.rowdata.obj;
 
 import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.persistence.core.rowdata.config.DateFormat;
-import com.happy3w.persistence.core.rowdata.config.DateFormatImpl;
+import com.happy3w.persistence.core.rowdata.config.DateFormatCfg;
 import com.happy3w.persistence.core.rowdata.config.DateZoneId;
-import com.happy3w.persistence.core.rowdata.config.DateZoneIdImpl;
+import com.happy3w.persistence.core.rowdata.config.DateZoneIdCfg;
 import com.happy3w.persistence.core.rowdata.config.NumFormat;
-import com.happy3w.persistence.core.rowdata.config.NumFormatImpl;
+import com.happy3w.persistence.core.rowdata.config.NumFormatCfg;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.utils.ListUtils;
 import lombok.AllArgsConstructor;
@@ -29,13 +29,13 @@ public class ObjRdTableDefTest {
         ObjRdColumnDef enabledField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "enabled");
         ObjRdColumnDef birthdayField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "birthday");
 
-        Assert.assertEquals("UTC+8", tableDef.getExtConfigs().getConfig(DateZoneIdImpl.class).getZoneId());
+        Assert.assertEquals("UTC+8", tableDef.getExtConfigs().getConfig(DateZoneIdCfg.class).getZoneId());
         Assert.assertEquals(true, nameField.isRequired());
         Assert.assertEquals(false, ageField.isRequired());
-        Assert.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatImpl.class).getFormat());
-        Assert.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatImpl.class).getFormat());
+        Assert.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatCfg.class).getFormat());
+        Assert.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatCfg.class).getFormat());
         Assert.assertEquals("setEnabledText", enabledField.getAccessor().getSetMethod().getName());
-        Assert.assertEquals("yyyy-MM-dd", birthdayField.getExtConfigs().getConfig(DateFormatImpl.class).getFormat());
+        Assert.assertEquals("yyyy-MM-dd", birthdayField.getExtConfigs().getConfig(DateFormatCfg.class).getFormat());
     }
 
     @Getter

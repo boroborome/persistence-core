@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NumFormatImpl implements IAnnotationRdConfig<NumFormat> {
+public class NumFormatCfg implements IAnnotationRdConfig<NumFormat> {
     private String format;
     @Override
     public void initBy(NumFormat annotation) {

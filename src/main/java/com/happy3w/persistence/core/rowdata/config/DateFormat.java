@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
-@ObjRdConfigMap(DateFormatImpl.class)
+@ObjRdConfigMap(DateFormatCfg.class)
 public @interface DateFormat {
     String value();
 }

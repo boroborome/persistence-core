@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DateFormatImpl implements IAnnotationRdConfig<DateFormat> {
+public class DateFormatCfg implements IAnnotationRdConfig<DateFormat> {
     private String format;
     @Override
     public void initBy(DateFormat annotation) {
