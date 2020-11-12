@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface IFilterAble {
     default List<IFilter> toFilterList() {
-        return FilterAssistant.createFitler(this);
+        return FilterAssistant.createFilters(this);
     }
 }

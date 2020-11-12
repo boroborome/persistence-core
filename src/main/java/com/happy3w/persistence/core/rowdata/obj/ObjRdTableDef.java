@@ -7,7 +7,7 @@ import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.persistence.core.rowdata.UnknownColumnStrategy;
 import com.happy3w.persistence.core.rowdata.simple.AbstractRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
-import com.happy3w.toolkits.utils.ReflectUtil;
+import com.happy3w.toolkits.relect.ReflectUtil;
 import com.happy3w.toolkits.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
