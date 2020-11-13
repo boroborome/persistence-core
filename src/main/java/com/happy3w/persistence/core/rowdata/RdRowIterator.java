@@ -14,8 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.Optional;
 
 public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     private final IReadDataPage<?> page;
@@ -41,15 +40,15 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     }
 
     @Override
-    protected void findNext() {
+    protected Optional<RdRowWrapper<T>> findNext() {
         if (columnInfoList == null) {
             initialize(currentRow, 0);
         }
 
-        nextItem = loadData(currentRow);
+        RdRowWrapper<T> nextItem = loadData(currentRow);
         currentRow++;
 
-        status = nextItem == null ? IteratorStatus.end : IteratorStatus.found;
+        return nextItem == null ? Optional.empty() : Optional.of(nextItem);
     }
 
     public int loadSchema(int rowIndex, int startColumn) {
