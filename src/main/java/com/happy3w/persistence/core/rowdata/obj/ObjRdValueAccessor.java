@@ -19,7 +19,7 @@ public class ObjRdValueAccessor {
     public static ObjRdValueAccessor from(Field field) {
         FieldAccessor fieldAccessor = FieldAccessor.from(field);
         return new ObjRdValueAccessor(fieldAccessor.getFieldName(),
-                fieldAccessor.getDataType(),
+                fieldAccessor.getPropertyType(),
                 fieldAccessor.getGetMethod(),
                 fieldAccessor.getSetMethod());
     }
