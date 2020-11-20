@@ -51,7 +51,7 @@ public class ObjRdTableDefTest {
         @NumFormat("000")
         private int age;
 
-        @ObjRdColumn(value = "在校生", setter = "setEnabledText")
+        @ObjRdColumn(value = "在校生", setter = "setEnabledText", getter = "getEnabledText")
         private boolean enabled;
 
         @ObjRdColumn("生日")
@@ -63,8 +63,12 @@ public class ObjRdTableDefTest {
 
         }
 
-        public void setEnabledText(String enabled) {
+        public String getEnabledText() {
+            return String.valueOf(enabled);
+        }
 
+        public void setEnabledText(String enabledStr) {
+            enabled = Boolean.parseBoolean(enabledStr);
         }
     }
 }
