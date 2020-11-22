@@ -12,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QueryOptions {
-    private long maxSize = -1;
+    private long maxSize;
 }

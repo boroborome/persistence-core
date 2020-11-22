@@ -18,7 +18,7 @@ public class FilterAssistantTest {
     public void should_collect_filter_success() {
         MyFilter myFilter = new MyFilter("Tom", "Great");
         List<IFilter> filters = FilterAssistant.createFilters(myFilter);
-        Assert.assertEquals("[{\"field\":\"name\",\"positive\":true,\"ref\":\"Tom\",\"type\":\"str-equal\"},{\"field\":\"evaluate\",\"positive\":true,\"ref\":\"Great\",\"type\":\"str-equal\"}]",
+        Assert.assertEquals("[{\"field\":\"name\",\"positive\":true,\"ref\":\"Tom\",\"type\":\"str-equal\"},{\"field\":\"evaluate\",\"positive\":true,\"ref\":\"Great\",\"type\":\"str-like\"}]",
                 JSON.toJSONString(filters));
     }
 
