@@ -13,4 +13,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QueryOptions {
     private long maxSize;
+    private int pageSize;
 }
