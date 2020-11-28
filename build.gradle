@@ -20,16 +20,16 @@ repositories {
 }
 
 dependencies {
-	compileOnly 'org.projectlombok:lombok:1.18.2'
+	compileOnly 'org.projectlombok:lombok:1.18.12'
 	api 'com.happy3w:toolkits:0.0.5'
 
-	annotationProcessor 'org.projectlombok:lombok:1.18.2'
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
 	testImplementation 'junit:junit:4.12'
 	testImplementation 'com.alibaba:fastjson:1.2.29'
 
-	testCompileOnly 'org.projectlombok:lombok:1.18.2'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+	testCompileOnly 'org.projectlombok:lombok:1.18.12'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
