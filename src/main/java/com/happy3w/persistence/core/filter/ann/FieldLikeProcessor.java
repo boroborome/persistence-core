@@ -19,7 +19,7 @@ public class FieldLikeProcessor extends CombineFilterProcessor<FieldLike, Object
 
         @Override
         public void collectFilters(FieldLike ftAnnotation, String ftValue, List<IFilter> filters) {
-            filters.add(new StringLikeFilter(ftAnnotation.value(), ftValue));
+            filters.add(new StringLikeFilter(ftAnnotation.value(), ftValue, ftAnnotation.positive()));
         }
     }
 
@@ -27,7 +27,7 @@ public class FieldLikeProcessor extends CombineFilterProcessor<FieldLike, Object
 
         @Override
         public void collectFilters(FieldLike ftAnnotation, Collection ftValues, List<IFilter> filters) {
-            filters.add(new StringLikeInFilter(ftAnnotation.value(), ftValues));
+            filters.add(new StringLikeInFilter(ftAnnotation.value(), ftValues, ftAnnotation.positive()));
         }
     }
 }

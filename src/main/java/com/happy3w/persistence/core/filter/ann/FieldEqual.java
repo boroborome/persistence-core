@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @FilterProcessor(FieldEqualProcessor.class)
 public @interface FieldEqual {
     String value();
-    boolean negative() default false;
+    boolean positive() default true;
 }

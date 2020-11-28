@@ -19,7 +19,7 @@ public class FieldEqualProcessor extends CombineFilterProcessor<FieldEqual, Obje
 
         @Override
         public void collectFilters(FieldEqual ftAnnotation, String ftValue, List<IFilter> filters) {
-            filters.add(new StringEqualFilter(ftAnnotation.value(), ftValue));
+            filters.add(new StringEqualFilter(ftAnnotation.value(), ftValue, ftAnnotation.positive()));
         }
     }
 
@@ -27,7 +27,7 @@ public class FieldEqualProcessor extends CombineFilterProcessor<FieldEqual, Obje
 
         @Override
         public void collectFilters(FieldEqual ftAnnotation, Collection ftValues, List<IFilter> filters) {
-            filters.add(new StringInFilter(ftAnnotation.value(), ftValues));
+            filters.add(new StringInFilter(ftAnnotation.value(), ftValues, ftAnnotation.positive()));
         }
     }
 }

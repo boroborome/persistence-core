@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @FilterProcessor(FieldLikeProcessor.class)
 public @interface FieldLike {
     String value();
-    boolean negative() default false;
+    boolean positive() default true;
 }
