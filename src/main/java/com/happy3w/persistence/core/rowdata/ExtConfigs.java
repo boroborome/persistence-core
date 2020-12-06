@@ -25,8 +25,9 @@ public class ExtConfigs {
         return (T) configs.get(configType);
     }
 
-    public <T extends IRdConfig> void regist(T config) {
+    public <T extends IRdConfig> ExtConfigs regist(T config) {
         configs.put(config.getClass(), config);
+        return this;
     }
 
     public void merge(ExtConfigs otherExtConfigs) {

@@ -50,16 +50,16 @@ public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, 
         return titleColumnMap.get(title);
     }
 
-    public <C extends IRdConfig> AbstractRdTableDef<RowData, ColType, Self> config(C config) {
+    public <C extends IRdConfig> Self config(C config) {
         extConfigs.regist(config);
-        return this;
+        return (Self) this;
     }
 
-    public AbstractRdTableDef<RowData, ColType, Self> filterColumns(String... columnCode) {
+    public Self filterColumns(String... columnCode) {
         return filterColumns(Arrays.asList(columnCode));
     }
 
-    public AbstractRdTableDef<RowData, ColType, Self> filterColumns(Collection<String> columnCodes) {
+    public Self filterColumns(Collection<String> columnCodes) {
         Map<String, ColType> codeColMap = getCodeColumnMap();
         List<ColType> newColumns = new ArrayList<>();
         List<String> unknownColumns = new ArrayList<>();
@@ -75,6 +75,6 @@ public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, 
             throw new IllegalArgumentException("Unknown column:" + unknownColumns);
         }
         this.columns = newColumns;
-        return this;
+        return (Self) this;
     }
 }
