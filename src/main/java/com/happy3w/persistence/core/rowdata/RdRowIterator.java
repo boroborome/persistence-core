@@ -2,6 +2,7 @@ package com.happy3w.persistence.core.rowdata;
 
 import com.happy3w.persistence.core.rowdata.page.IReadDataPage;
 import com.happy3w.toolkits.iterator.NeedFindIterator;
+import com.happy3w.toolkits.iterator.NullableOptional;
 import com.happy3w.toolkits.message.MessageFilter;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.utils.ListUtils;
@@ -14,7 +15,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     private final IReadDataPage<?> page;
@@ -40,7 +40,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     }
 
     @Override
-    protected Optional<RdRowWrapper<T>> findNext() {
+    protected NullableOptional<RdRowWrapper<T>> findNext() {
         if (columnInfoList == null) {
             initialize(currentRow, 0);
         }
@@ -48,7 +48,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
         RdRowWrapper<T> nextItem = loadData(currentRow);
         currentRow++;
 
-        return nextItem == null ? Optional.empty() : Optional.of(nextItem);
+        return nextItem == null ? NullableOptional.empty() : NullableOptional.of(nextItem);
     }
 
     public int loadSchema(int rowIndex, int startColumn) {

@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.12'
-	api 'com.happy3w:toolkits:0.0.5'
+	api 'com.happy3w:toolkits:0.0.6'
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
