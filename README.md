@@ -199,3 +199,5 @@ public interface IWriteDataPage<T extends IWriteDataPage<T>> extends IDataPage<T
 ```
 
 ## 历史
+### 0.0.4
+- 修改过滤条件为正向命名
