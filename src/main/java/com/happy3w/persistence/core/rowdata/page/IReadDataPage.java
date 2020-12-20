@@ -6,7 +6,7 @@ import com.happy3w.persistence.core.rowdata.ExtConfigs;
  * 读文件接口
  * @param <T> 自身类型
  */
-public interface IReadDataPage<T extends IReadDataPage<T>> {
+public interface IReadDataPage<T extends IReadDataPage<T>> extends IDataPage {
 
     /**
      * 读取当前page的名称，用于报错时确定问题

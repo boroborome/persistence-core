@@ -6,7 +6,7 @@ import com.happy3w.persistence.core.rowdata.ExtConfigs;
  * 写数据接口
  * @param <T> 自身类型
  */
-public interface IWriteDataPage<T extends IWriteDataPage<T>> {
+public interface IWriteDataPage<T extends IWriteDataPage<T>> extends IDataPage {
 
     /**
      * 换行。表示结束当前数据
