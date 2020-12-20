@@ -9,6 +9,7 @@ public abstract class AbstractWriteDataPage<T extends AbstractWriteDataPage<T>> 
     @Setter
     protected ExtConfigs extConfigs = new ExtConfigs();
 
+    @SuppressWarnings("unchecked")
     @Override
     public T newLine() {
         row++;

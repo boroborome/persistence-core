@@ -76,23 +76,13 @@ public class RdAssistant {
     }
 
     public static <D, P extends IWriteDataPage> void writeObj(Stream<D> datas, P page, IRdTableDef<D, ?> tableDef) {
-        ExtConfigs orgConfigs = page.getExtConfigs();
-        try {
-            ExtConfigs configs = new ExtConfigs();
-            configs.merge(orgConfigs);
-            configs.merge(tableDef.getExtConfigs());
-            page.setExtConfigs(configs);
-
-            List<String> titles = ListUtils.map(tableDef.getColumns(), c -> c.getTitle());
-            writeList(titles, page);
+        List<String> titles = ListUtils.map(tableDef.getColumns(), c -> c.getTitle());
+        writeList(titles, page);
+        page.newLine();
+        datas.forEach(data -> {
+            List<Object> values = tableDef.toColumnValues(data);
+            writeList(values, page, tableDef);
             page.newLine();
-            datas.forEach(data -> {
-                List<Object> values = tableDef.toColumnValues(data);
-                writeList(values, page, tableDef);
-                page.newLine();
-            });
-        } finally {
-            page.setExtConfigs(orgConfigs);
-        }
+        });
     }
 }
