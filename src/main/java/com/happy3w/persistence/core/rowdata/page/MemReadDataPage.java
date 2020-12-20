@@ -13,8 +13,6 @@ public class MemReadDataPage implements IReadDataPage<MemReadDataPage> {
     private String pageName;
 
     private List<Object[]> rows = new ArrayList<>();
-    private int row;
-    private int column;
 
     private TypeConverter typeConverter = TypeConverter.INSTANCE;
 
@@ -53,13 +51,6 @@ public class MemReadDataPage implements IReadDataPage<MemReadDataPage> {
     @Override
     public String getPageName() {
         return pageName;
-    }
-
-    @Override
-    public MemReadDataPage locate(int row, int column) {
-        this.row = row;
-        this.column = column;
-        return this;
     }
 
     @Override
