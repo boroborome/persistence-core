@@ -4,7 +4,7 @@ import com.happy3w.persistence.core.rowdata.ExtConfigs;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class AbstractDataPage implements IDataPage {
+public abstract class AbstractDataPage {
     @Getter
     @Setter
     protected ExtConfigs extConfigs = new ExtConfigs();
