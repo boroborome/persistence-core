@@ -9,6 +9,7 @@ import com.happy3w.toolkits.utils.ListUtils;
 import com.happy3w.toolkits.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     private final IReadDataPage<?> page;
     private IRdTableDef<T, ? extends IRdColumnDef> tableDef;
@@ -168,7 +170,13 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
                         columnDef.getDataType(),
                         columnDef.getExtConfigs());
             } catch (Exception e) {
-                messageRecorder.appendError(e.getMessage());
+                String msg = e.getMessage();
+                if (msg == null) {
+                    msg = "Empty Message.";
+                }
+                log.error(msg, e);
+
+                messageRecorder.appendError(msg);
                 return null;
             }
         }
