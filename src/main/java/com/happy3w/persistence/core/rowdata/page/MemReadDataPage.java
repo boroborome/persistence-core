@@ -8,6 +8,8 @@ import java.util.List;
 
 public class MemReadDataPage implements IReadDataPage<MemReadDataPage> {
 
+    private ExtConfigs extConfigs;
+
     private String pageName;
 
     private List<Object[]> rows = new ArrayList<>();
@@ -41,8 +43,23 @@ public class MemReadDataPage implements IReadDataPage<MemReadDataPage> {
         return this;
     }
 
+    public MemReadDataPage extConfig(ExtConfigs extConfigs) {
+        this.extConfigs = extConfigs;
+        return this;
+    }
+
     @Override
     public String getPageName() {
         return pageName;
+    }
+
+    @Override
+    public ExtConfigs getExtConfigs() {
+        return extConfigs;
+    }
+
+    @Override
+    public void setExtConfigs(ExtConfigs extConfigs) {
+        this.extConfigs = extConfigs;
     }
 }
