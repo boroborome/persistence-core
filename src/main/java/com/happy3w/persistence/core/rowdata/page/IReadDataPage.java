@@ -9,6 +9,12 @@ import com.happy3w.persistence.core.rowdata.ExtConfigs;
 public interface IReadDataPage<T extends IReadDataPage<T>> extends IDataPage {
 
     /**
+     * 读取当前page的名称，用于报错时确定问题
+     * @return 当前page的名称
+     */
+    String getPageName();
+
+    /**
      * 读取指定单元格数据
      * @param rowIndex 行索引
      * @param columnIndex 列索引
