@@ -1,0 +1,59 @@
+package com.happy3w.persistence.core.rowdata.page;
+
+import com.happy3w.persistence.core.rowdata.ExtConfigs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemReadDataPage implements IReadDataPage<MemReadDataPage> {
+
+    private ExtConfigs extConfigs;
+
+    private String pageName;
+
+    private List<Object[]> rows = new ArrayList<>();
+    private int row;
+    private int column;
+
+    @Override
+    public <D> D readValue(int rowIndex, int columnIndex, Class<D> dataType, ExtConfigs extConfigs) {
+        return null;
+    }
+
+    public MemReadDataPage pageName(String pageName) {
+        this.pageName = pageName;
+        return this;
+    }
+
+    public MemReadDataPage rowData(Object... rowDatas) {
+        rows.add(rowDatas);
+        return this;
+    }
+
+    public MemReadDataPage extConfig(ExtConfigs extConfigs) {
+        this.extConfigs = extConfigs;
+        return this;
+    }
+
+    @Override
+    public String getPageName() {
+        return pageName;
+    }
+
+    @Override
+    public MemReadDataPage locate(int row, int column) {
+        this.row = row;
+        this.column = column;
+        return this;
+    }
+
+    @Override
+    public ExtConfigs getExtConfigs() {
+        return extConfigs;
+    }
+
+    @Override
+    public void setExtConfigs(ExtConfigs extConfigs) {
+        this.extConfigs = extConfigs;
+    }
+}
