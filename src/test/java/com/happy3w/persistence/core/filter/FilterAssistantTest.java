@@ -16,9 +16,13 @@ public class FilterAssistantTest {
 
     @Test
     public void should_collect_filter_success() {
-        MyFilter myFilter = new MyFilter("Tom", "Great");
+        MyFilter myFilter = MyFilter.builder()
+                .name("Tom")
+                .evaluate("Great")
+                .age(12)
+                .build();
         List<IFilter> filters = FilterAssistant.createFilters(myFilter);
-        Assert.assertEquals("[{\"field\":\"name\",\"positive\":true,\"ref\":\"Tom\",\"type\":\"str-equal\"},{\"field\":\"evaluate\",\"positive\":true,\"ref\":\"Great\",\"type\":\"str-like\"}]",
+        Assert.assertEquals("[{\"field\":\"name\",\"positive\":true,\"ref\":\"Tom\",\"type\":\"str-equal\"},{\"field\":\"evaluate\",\"positive\":true,\"ref\":\"Great\",\"type\":\"str-like\"},{\"field\":\"age\",\"positive\":true,\"ref\":12,\"type\":\"num-equal\"}]",
                 JSON.toJSONString(filters));
     }
 
@@ -32,5 +36,8 @@ public class FilterAssistantTest {
 
         @FieldLike("evaluate")
         private String evaluate;
+
+        @FieldEqual("age")
+        private int age;
     }
 }
