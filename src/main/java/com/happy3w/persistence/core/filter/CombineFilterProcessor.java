@@ -12,11 +12,11 @@ public class CombineFilterProcessor<AT extends Annotation, VT> implements IFilte
     protected ConfigManager<IFilterProcessor> processorConfig = ConfigManager.inherit();
     protected ConfigManager<IFilterProcessor> collectionProcessorConfig = ConfigManager.inherit();
 
-    public void registProcessor(Class refType, IFilterProcessor processor) {
+    public <FT> void registProcessor(Class<FT> refType, IFilterProcessor<AT, FT> processor) {
         processorConfig.regist(refType, processor);
     }
 
-    public void registCollectionProcessor(Class itemType, IFilterProcessor processor) {
+    public <IT> void registCollectionProcessor(Class<IT> itemType, IFilterProcessor<AT, Collection<IT>> processor) {
         collectionProcessorConfig.regist(itemType, processor);
     }
 

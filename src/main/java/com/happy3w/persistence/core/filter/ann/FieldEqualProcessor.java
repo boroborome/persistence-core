@@ -35,18 +35,18 @@ public class FieldEqualProcessor extends CombineFilterProcessor<FieldEqual, Obje
         }
     }
 
-    public static class StrInProcessor implements IFilterProcessor<FieldEqual, Collection> {
+    public static class StrInProcessor implements IFilterProcessor<FieldEqual, Collection<String>> {
 
         @Override
-        public void collectFilters(FieldEqual ftAnnotation, Collection ref, List<IFilter> filters) {
+        public void collectFilters(FieldEqual ftAnnotation, Collection<String> ref, List<IFilter> filters) {
             filters.add(new StringInFilter(ftAnnotation.value(), ref, ftAnnotation.positive()));
         }
     }
 
-    public static class NumInProcessor implements IFilterProcessor<FieldEqual, Collection> {
+    public static class NumInProcessor implements IFilterProcessor<FieldEqual, Collection<Number>> {
 
         @Override
-        public void collectFilters(FieldEqual ftAnnotation, Collection ref, List<IFilter> filters) {
+        public void collectFilters(FieldEqual ftAnnotation, Collection<Number> ref, List<IFilter> filters) {
             filters.add(new NumInFilter<>(ftAnnotation.value(), ref, ftAnnotation.positive()));
         }
     }

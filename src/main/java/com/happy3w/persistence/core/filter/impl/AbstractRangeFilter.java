@@ -6,8 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AbstractRangeFilter<DT> extends AbstractSingleFieldFilter {
-
+public abstract class AbstractRangeFilter<DT> extends AbstractSingleFieldFilter {
     protected DT start;
     protected DT end;
 
