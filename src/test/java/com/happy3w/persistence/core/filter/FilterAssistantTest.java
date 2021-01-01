@@ -3,6 +3,8 @@ package com.happy3w.persistence.core.filter;
 import com.alibaba.fastjson.JSON;
 import com.happy3w.persistence.core.filter.ann.FieldEqual;
 import com.happy3w.persistence.core.filter.ann.FieldLike;
+import com.happy3w.persistence.core.filter.ann.FieldRange;
+import com.happy3w.persistence.core.filter.model.NumRange;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,9 +22,10 @@ public class FilterAssistantTest {
                 .name("Tom")
                 .evaluate("Great")
                 .age(12)
+                .weightRange(new NumRange<>(3.4, 50.0))
                 .build();
         List<IFilter> filters = FilterAssistant.createFilters(myFilter);
-        Assert.assertEquals("[{\"field\":\"name\",\"positive\":true,\"ref\":\"Tom\",\"type\":\"str-equal\"},{\"field\":\"evaluate\",\"positive\":true,\"ref\":\"Great\",\"type\":\"str-like\"},{\"field\":\"age\",\"positive\":true,\"ref\":12,\"type\":\"num-equal\"}]",
+        Assert.assertEquals("[{\"field\":\"name\",\"positive\":true,\"ref\":\"Tom\",\"type\":\"str-equal\"},{\"field\":\"evaluate\",\"positive\":true,\"ref\":\"Great\",\"type\":\"str-like\"},{\"field\":\"age\",\"positive\":true,\"ref\":12,\"type\":\"num-equal\"},{\"end\":50.0,\"field\":\"weight\",\"includeEnd\":false,\"includeStart\":true,\"positive\":true,\"start\":3.4,\"type\":\"num-range\"}]",
                 JSON.toJSONString(filters));
     }
 
@@ -39,5 +42,8 @@ public class FilterAssistantTest {
 
         @FieldEqual("age")
         private int age;
+
+        @FieldRange("weight")
+        private NumRange<Double> weightRange;
     }
 }

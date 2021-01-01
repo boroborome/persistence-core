@@ -9,8 +9,15 @@ public abstract class AbstractSingleFieldFilter extends AbstractFieldFilter impl
     public AbstractSingleFieldFilter(String type) {
         super(type);
     }
+
     public AbstractSingleFieldFilter(String type, String field) {
         super(type);
         this.field = field;
+    }
+
+    public AbstractSingleFieldFilter(String type, String field, boolean positive) {
+        super(type);
+        this.field = field;
+        this.positive = positive;
     }
 }
