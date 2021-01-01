@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NumRangeFilter<DT extends Number> extends AbstractFieldRangeFilter<DT> {
+public class NumRangeFilter<DT extends Number> extends AbstractRangeFilter<DT> {
     public static final String TYPE =  "num-range";
 
     public NumRangeFilter(String field, DT start, DT end) {

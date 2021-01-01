@@ -7,32 +7,30 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AbstractRangeFilter<DT> extends AbstractSingleFieldFilter {
+
     protected DT start;
-    protected boolean includeStart;
     protected DT end;
+
+    protected boolean includeStart;
     protected boolean includeEnd;
 
-    public AbstractRangeFilter(String type) {
-        super(type);
+    public AbstractRangeFilter(String type, String field, DT start, DT end) {
+        this(type, field, start, end, true, false, true);
     }
 
-    public AbstractRangeFilter(String type,
-                               String field,
-                               DT start,
-                               DT end) {
-        this(type, field, start, true, end, false);
+    public AbstractRangeFilter(String type, String field, DT start, DT end, boolean isPositive) {
+        this(type, field, start, end, true, false, isPositive);
     }
 
-    public AbstractRangeFilter(String type,
-                               String field,
-                               DT start,
-                               boolean includeStart,
-                               DT end,
-                               boolean includeEnd) {
-        super(type, field);
+    public AbstractRangeFilter(String type, String field, DT start, DT end, boolean includeStart, boolean includeEnd) {
+        this(type, field, start, end, includeStart, includeEnd, true);
+    }
+
+    public AbstractRangeFilter(String type, String field, DT start, DT end, boolean includeStart, boolean includeEnd, boolean isPositive) {
+        super(type, field, isPositive);
         this.start = start;
-        this.includeStart = includeStart;
         this.end = end;
+        this.includeStart = includeStart;
         this.includeEnd = includeEnd;
     }
 }
