@@ -1,28 +1,43 @@
 package com.happy3w.persistence.core.filter;
 
-import com.happy3w.toolkits.utils.MapUtils;
+import com.happy3w.toolkits.manager.ConfigManager;
 import lombok.Getter;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class CombineFilterProcessor<AT extends Annotation, VT> implements IFilterProcessor<AT, VT> {
-    protected Map<Class, IFilterProcessor> ftValueTypeToProcessor = new HashMap<>();
+    protected ConfigManager<IFilterProcessor> processorConfig = ConfigManager.inherit();
+    protected ConfigManager<IFilterProcessor> collectionProcessorConfig = ConfigManager.inherit();
 
-    public void registProcessor(Class ftValueType, IFilterProcessor processor) {
-        ftValueTypeToProcessor.put(ftValueType, processor);
+    public void registProcessor(Class refType, IFilterProcessor processor) {
+        processorConfig.regist(refType, processor);
     }
+
+    public void registCollectionProcessor(Class itemType, IFilterProcessor processor) {
+        collectionProcessorConfig.regist(itemType, processor);
+    }
+
     @Override
-    public void collectFilters(AT ftAnnotation, VT ftValue, List<IFilter> filters) {
-        IFilterProcessor processor = MapUtils.findByType(ftValue.getClass(), ftValueTypeToProcessor);
+    public void collectFilters(AT ftAnnotation, VT ref, List<IFilter> filters) {
+        IFilterProcessor processor = findProcessorByRefValue(ref);
         if (processor == null) {
             throw new UnsupportedOperationException(getRealAnnotationType(ftAnnotation)
-                    + " not support data type:" + ftValue.getClass());
+                    + " not support data type:" + ref.getClass());
         }
-        processor.collectFilters(ftAnnotation, ftValue, filters);
+        processor.collectFilters(ftAnnotation, ref, filters);
+    }
+
+    private IFilterProcessor findProcessorByRefValue(VT ref) {
+        if (ref instanceof Collection) {
+            Collection c = (Collection) ref;
+            Object first = c.iterator().next();
+            return collectionProcessorConfig.findByType(first.getClass());
+        } else {
+            return processorConfig.findByType(ref.getClass());
+        }
     }
 
     private Class getRealAnnotationType(Annotation annotation) {
