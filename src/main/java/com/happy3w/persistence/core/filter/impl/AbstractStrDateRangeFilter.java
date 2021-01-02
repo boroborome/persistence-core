@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class AbstractStrDateRangeFilter extends AbstractRangeFilter<String> {
+    protected String zoneId;
 
     public AbstractStrDateRangeFilter(String type, String field, String start, String end) {
         super(type, field, start, end);
@@ -21,5 +22,13 @@ public abstract class AbstractStrDateRangeFilter extends AbstractRangeFilter<Str
 
     public AbstractStrDateRangeFilter(String type, String field, String start, String end, boolean includeStart, boolean includeEnd, boolean isPositive) {
         super(type, field, start, end, includeStart, includeEnd, isPositive);
+    }
+
+    public AbstractStrDateRangeFilter(String type, String field,
+                                      String start, String end,
+                                      boolean includeStart, boolean includeEnd,
+                                      String zoneId, boolean isPositive) {
+        super(type, field, start, end, includeStart, includeEnd, isPositive);
+        this.zoneId = zoneId;
     }
 }

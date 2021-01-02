@@ -23,4 +23,8 @@ public class MonthRangeFilter extends AbstractStrDateRangeFilter {
     public MonthRangeFilter(String field, String start, String end, boolean includeStart, boolean includeEnd, boolean isPositive) {
         super(TYPE, field, start, end, includeStart, includeEnd, isPositive);
     }
+
+    public MonthRangeFilter(String field, String start, String end, boolean includeStart, boolean includeEnd, String zoneId, boolean isPositive) {
+        super(TYPE, field, start, end, includeStart, includeEnd, zoneId, isPositive);
+    }
 }

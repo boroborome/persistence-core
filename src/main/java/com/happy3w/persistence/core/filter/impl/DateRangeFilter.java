@@ -23,4 +23,8 @@ public class DateRangeFilter extends AbstractStrDateRangeFilter {
     public DateRangeFilter(String field, String start, String end, boolean includeStart, boolean includeEnd, boolean isPositive) {
         super(TYPE, field, start, end, includeStart, includeEnd, isPositive);
     }
+
+    public DateRangeFilter(String field, String start, String end, boolean includeStart, boolean includeEnd, String zoneId, boolean isPositive) {
+        super(TYPE, field, start, end, includeStart, includeEnd, zoneId, isPositive);
+    }
 }
