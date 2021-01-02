@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MonthRangeFilter extends AbstractRangeFilter<String> {
+public class MonthRangeFilter extends AbstractStrDateRangeFilter {
     public static final String TYPE =  "month-range";
 
     public MonthRangeFilter(String field, String start, String end) {

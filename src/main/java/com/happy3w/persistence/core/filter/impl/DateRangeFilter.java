@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DateRangeFilter extends AbstractRangeFilter<String> {
+public class DateRangeFilter extends AbstractStrDateRangeFilter {
     public static final String TYPE =  "date-range";
 
     public DateRangeFilter(String field, String start, String end) {
