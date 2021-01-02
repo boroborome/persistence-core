@@ -50,10 +50,6 @@ public class FilterAssistant {
         return fieldInfos;
     }
 
-    private static IFilterProcessor findProcessor(Class<? extends IFilterProcessor> processorType) {
-        return processorMap.computeIfAbsent(processorType, type -> ReflectUtil.newInstance(processorType));
-    }
-
     private static FieldInfo findFilterAnnotation(Field field) {
         for (Annotation annotation : field.getDeclaredAnnotations()) {
             FilterProcessor processorAnn = annotation.annotationType().getDeclaredAnnotation(FilterProcessor.class);
