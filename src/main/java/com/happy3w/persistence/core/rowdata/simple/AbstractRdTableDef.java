@@ -30,7 +30,7 @@ public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, 
 
     @Getter
     @Setter
-    protected Supplier<IColumnMatcher> columnMatcherSupplier = () -> new FixColumnMatcher();
+    protected Supplier<IColumnMatcher> columnMatcherSupplier = () -> new FixColumnMatcher(this);
 
     @Override
     public IColumnMatcher createColumnMatcher() {

@@ -11,7 +11,6 @@ import com.happy3w.toolkits.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     public int loadSchema(int rowIndex, int startColumn) {
         columnInfoList = new ArrayList<>();
 
-        Map<String, ColumnInfo> titleToColumnInfo = ColumnInfo.createInfoMap(tableDef.getColumns());
+        IColumnMatcher columnMatcher = tableDef.createColumnMatcher();
 
         for (int pageColumnIndex = startColumn; ; ++pageColumnIndex) {
             String columnTitle = page.readValue(rowIndex, pageColumnIndex, String.class, null);
@@ -65,7 +64,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
                 break;
             }
 
-            ColumnInfo columnInfo = titleToColumnInfo.get(columnTitle);
+            ColumnInfo columnInfo = columnMatcher.genColumnInfo(columnTitle, pageColumnIndex);
             if (columnInfo == null) {
                 if (tableDef.getUnknownColumnStrategy() == UnknownColumnStrategy.error) {
                     messageRecorder.appendError("Unexpected column:{0}", columnTitle);
@@ -73,24 +72,22 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
                 continue;
             }
 
-            columnInfo.setPageColumnIndex(pageColumnIndex);
             columnInfoList.add(columnInfo);
-            titleToColumnInfo.remove(columnTitle);
-            if (titleToColumnInfo.isEmpty()) {
+            if (columnMatcher.isFinished()) {
                 break;
             }
         }
 
-        checkAllRequiredFieldMustExist(titleToColumnInfo.values());
+        checkAllRequiredFieldMustExist();
 
         return rowIndex + 1;
     }
 
-    private void checkAllRequiredFieldMustExist(Collection<ColumnInfo> leftColumnInfos) {
+    private void checkAllRequiredFieldMustExist() {
         List<String> lostRequiredColumns = new ArrayList<>();
-        for (ColumnInfo columnInfo : leftColumnInfos) {
-            IRdColumnDef columnDef = columnInfo.getColumnDef();
-            if (columnDef.isRequired()) {
+        Map<String, ColumnInfo> existColumns = ListUtils.toMap(columnInfoList, c -> c.getColumnDef().getTitle());
+        for (IRdColumnDef columnDef : tableDef.getColumns()) {
+            if (columnDef.isRequired() && !existColumns.containsKey(columnDef.getTitle())) {
                 lostRequiredColumns.add(columnDef.getTitle());
             }
         }
