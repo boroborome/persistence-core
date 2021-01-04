@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, Self extends AbstractRdTableDef<RowData, ColType, Self>>
         implements IRdTableDef<RowData, ColType> {
@@ -27,9 +28,13 @@ public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, 
     @Setter
     protected ExtConfigs extConfigs = new ExtConfigs();
 
+    @Getter
+    @Setter
+    protected Supplier<IColumnMatcher> columnMatcherSupplier = () -> new FixColumnMatcher();
+
     @Override
     public IColumnMatcher createColumnMatcher() {
-        return new FixColumnMatcher();
+        return columnMatcherSupplier.get();
     }
 
     @Getter
