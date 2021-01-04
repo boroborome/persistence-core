@@ -1,10 +1,12 @@
 package com.happy3w.persistence.core.rowdata.simple;
 
 import com.happy3w.persistence.core.rowdata.ExtConfigs;
+import com.happy3w.persistence.core.rowdata.IColumnMatcher;
 import com.happy3w.persistence.core.rowdata.IRdColumnDef;
 import com.happy3w.persistence.core.rowdata.IRdConfig;
 import com.happy3w.persistence.core.rowdata.IRdTableDef;
 import com.happy3w.persistence.core.rowdata.UnknownColumnStrategy;
+import com.happy3w.persistence.core.rowdata.column.FixColumnMatcher;
 import com.happy3w.toolkits.utils.ListUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +26,11 @@ public abstract class AbstractRdTableDef<RowData, ColType extends IRdColumnDef, 
     @Getter
     @Setter
     protected ExtConfigs extConfigs = new ExtConfigs();
+
+    @Override
+    public IColumnMatcher createColumnMatcher() {
+        return new FixColumnMatcher();
+    }
 
     @Getter
     @Setter
