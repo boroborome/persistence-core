@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.happy3w.persistence.core.rowdata.column.DynamicColumnMatcher;
 import com.happy3w.persistence.core.rowdata.obj.ObjRdTableDef;
 import com.happy3w.persistence.core.rowdata.page.MemReadDataPage;
-import com.happy3w.persistence.core.rowdata.simple.RdTableDef;
+import com.happy3w.persistence.core.rowdata.simple.ListRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class RdRowIteratorTest {
                 .rowData("名字", "生日", "体重", "更新时间", "在校生")
                 .rowData("Jerry", null, 3.4d, Timestamp.valueOf("2020-12-20 00:00:00"), "在校");
 
-        RdTableDef dataDef = new RdTableDef();
+        ListRdTableDef dataDef = new ListRdTableDef();
         dataDef.setColumnMatcherSupplier(() -> new DynamicColumnMatcher(dataDef));
 
         MessageRecorder recorder = new MessageRecorder();

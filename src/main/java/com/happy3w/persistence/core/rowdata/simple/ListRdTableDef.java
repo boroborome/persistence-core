@@ -6,8 +6,8 @@ import com.happy3w.toolkits.message.MessageRecorder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RdTableDef extends AbstractRdTableDef<List<Object>, RdColumnDef, RdTableDef> {
-    public RdTableDef() {
+public class ListRdTableDef extends AbstractRdTableDef<List<Object>, RdColumnDef, ListRdTableDef> {
+    public ListRdTableDef() {
         columns = new ArrayList<>();
     }
 
