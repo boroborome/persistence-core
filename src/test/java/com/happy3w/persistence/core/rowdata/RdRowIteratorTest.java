@@ -5,12 +5,14 @@ import com.happy3w.persistence.core.rowdata.column.DynamicColumnMatcher;
 import com.happy3w.persistence.core.rowdata.obj.ObjRdTableDef;
 import com.happy3w.persistence.core.rowdata.page.MemReadDataPage;
 import com.happy3w.persistence.core.rowdata.simple.ListRdTableDef;
+import com.happy3w.persistence.core.rowdata.simple.MapRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 public class RdRowIteratorTest {
 
@@ -34,7 +36,7 @@ public class RdRowIteratorTest {
     }
 
     @Test
-    public void should_load_by_RdTableDef_success() {
+    public void should_load_by_ListRdTableDef_success() {
         MemReadDataPage readDataPage = new MemReadDataPage()
                 .pageName("test-page")
                 .rowData("名字", "生日", "体重", "更新时间", "在校生")
@@ -50,6 +52,27 @@ public class RdRowIteratorTest {
 
         Assert.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
         Assert.assertEquals("[[\"Jerry\",\"\",\"3.4\",\"2020-12-20 00:00:00\",\"在校\"]]",
+                JSON.toJSONString(datas));
+    }
+
+
+    @Test
+    public void should_load_by_MapRdTableDef_success() {
+        MemReadDataPage readDataPage = new MemReadDataPage()
+                .pageName("test-page")
+                .rowData("名字", "生日", "体重", "更新时间", "在校生")
+                .rowData("Jerry", null, 3.4d, Timestamp.valueOf("2020-12-20 00:00:00"), "在校");
+
+        MapRdTableDef dataDef = new MapRdTableDef();
+        dataDef.setColumnMatcherSupplier(() -> new DynamicColumnMatcher(dataDef));
+
+        MessageRecorder recorder = new MessageRecorder();
+        List<Map<String, Object>> datas = new RdRowIterator<>(readDataPage, dataDef, recorder)
+                .map(RdRowWrapper::getData)
+                .toList();
+
+        Assert.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
+        Assert.assertEquals("[{\"体重\":\"3.4\",\"名字\":\"Jerry\",\"在校生\":\"在校\",\"生日\":\"\",\"更新时间\":\"2020-12-20 00:00:00\"}]",
                 JSON.toJSONString(datas));
     }
 }
