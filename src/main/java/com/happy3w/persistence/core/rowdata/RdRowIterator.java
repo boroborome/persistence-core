@@ -1,5 +1,6 @@
 package com.happy3w.persistence.core.rowdata;
 
+import com.happy3w.persistence.core.rowdata.column.ColumnInfo;
 import com.happy3w.persistence.core.rowdata.page.IReadDataPage;
 import com.happy3w.toolkits.iterator.NeedFindIterator;
 import com.happy3w.toolkits.iterator.NullableOptional;
@@ -7,13 +8,10 @@ import com.happy3w.toolkits.message.MessageFilter;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.utils.ListUtils;
 import com.happy3w.toolkits.utils.StringUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +73,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
                 continue;
             }
 
-            columnInfo.pageColumnIndex = pageColumnIndex;
+            columnInfo.setPageColumnIndex(pageColumnIndex);
             columnInfoList.add(columnInfo);
             titleToColumnInfo.remove(columnTitle);
             if (titleToColumnInfo.isEmpty()) {
@@ -91,7 +89,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
     private void checkAllRequiredFieldMustExist(Collection<ColumnInfo> leftColumnInfos) {
         List<String> lostRequiredColumns = new ArrayList<>();
         for (ColumnInfo columnInfo : leftColumnInfos) {
-            IRdColumnDef columnDef = columnInfo.columnDef;
+            IRdColumnDef columnDef = columnInfo.getColumnDef();
             if (columnDef.isRequired()) {
                 lostRequiredColumns.add(columnDef.getTitle());
             }
@@ -118,7 +116,7 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
                 continue;
             }
             columnCountWithValue++;
-            columnValues.set(columnInfo.tableColumnIndex, columnValue);
+            columnValues.set(columnInfo.getTableColumnIndex(), columnValue);
         }
 
         if (columnCountWithValue == 0) {
@@ -146,39 +144,4 @@ public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
         return iterator;
     }
 
-    @Getter
-    @AllArgsConstructor
-    private static class ColumnInfo {
-        private int pageColumnIndex;
-        private int tableColumnIndex;
-        private IRdColumnDef columnDef;
-
-        public static Map<String, ColumnInfo> createInfoMap(List<? extends IRdColumnDef> columns) {
-            Map<String, ColumnInfo> map = new HashMap<>();
-            for (int tableColumnIndex = 0; tableColumnIndex < columns.size(); tableColumnIndex++) {
-                IRdColumnDef column = columns.get(tableColumnIndex);
-                ColumnInfo info = new ColumnInfo(-1, tableColumnIndex, column);
-                map.put(column.getTitle(), info);
-            }
-            return map;
-        }
-
-
-        public Object readValue(int row, IReadDataPage<?> dataPage, MessageRecorder messageRecorder) {
-            try {
-                return dataPage.readValue(row, pageColumnIndex,
-                        columnDef.getDataType(),
-                        columnDef.getExtConfigs());
-            } catch (Exception e) {
-                String msg = e.getMessage();
-                if (msg == null) {
-                    msg = "Empty Message.";
-                }
-                log.error(msg, e);
-
-                messageRecorder.appendError(msg);
-                return null;
-            }
-        }
-    }
 }
