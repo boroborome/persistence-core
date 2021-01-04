@@ -23,10 +23,12 @@ public class ColumnInfo {
 
     public static Map<String, ColumnInfo> createInfoMap(List<? extends IRdColumnDef> columns) {
         Map<String, ColumnInfo> map = new HashMap<>();
-        for (int tableColumnIndex = 0; tableColumnIndex < columns.size(); tableColumnIndex++) {
-            IRdColumnDef column = columns.get(tableColumnIndex);
-            ColumnInfo info = new ColumnInfo(-1, tableColumnIndex, column);
-            map.put(column.getTitle(), info);
+        if (columns != null) {
+            for (int tableColumnIndex = 0; tableColumnIndex < columns.size(); tableColumnIndex++) {
+                IRdColumnDef column = columns.get(tableColumnIndex);
+                ColumnInfo info = new ColumnInfo(-1, tableColumnIndex, column);
+                map.put(column.getTitle(), info);
+            }
         }
         return map;
     }
