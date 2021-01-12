@@ -38,6 +38,24 @@ public class ObjRdTableDefTest {
         Assert.assertEquals("yyyy-MM-dd", birthdayField.getExtConfigs().getConfig(DateFormatCfg.class).getFormat());
     }
 
+    @Test
+    public void should_init_config_by_sub_class_success() {
+        ObjRdTableDef<SubClass> tableDef = ObjRdTableDef.from(SubClass.class);
+
+        ObjRdColumnDef subNameField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "subName");
+        Assert.assertNotNull(subNameField);
+
+        ObjRdColumnDef ageField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "age");
+        Assert.assertNotNull(ageField);
+    }
+
+    @Getter
+    @Setter
+    public static class SubClass extends MyData {
+        @ObjRdColumn(value = "subName")
+        private String subName;
+    }
+
     @Getter
     @Setter
     @NoArgsConstructor

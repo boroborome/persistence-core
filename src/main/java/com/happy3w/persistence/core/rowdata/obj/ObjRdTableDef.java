@@ -7,6 +7,7 @@ import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.persistence.core.rowdata.UnknownColumnStrategy;
 import com.happy3w.persistence.core.rowdata.simple.AbstractRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
+import com.happy3w.toolkits.reflect.FieldAccessor;
 import com.happy3w.toolkits.reflect.ReflectUtil;
 import com.happy3w.toolkits.utils.StringUtils;
 import lombok.AllArgsConstructor;
@@ -162,19 +163,23 @@ public class ObjRdTableDef<T> extends AbstractRdTableDef<T, ObjRdColumnDef, ObjR
 
     private static <T> List<ObjRdColumnDef> createColumnDefs(Class<T> dataType) {
         List<ObjRdColumnDef> columns = new ArrayList<>();
-        Method[] methods = dataType.getDeclaredMethods();
-        for (Field field : dataType.getDeclaredFields()) {
+        for (FieldAccessor accessor : FieldAccessor.allFieldAccessors(dataType)) {
+            Field field = accessor.getField();
+            if (field == null) {
+                continue;
+            }
             ObjRdColumn columnAnnotation = field.getDeclaredAnnotation(ObjRdColumn.class);
             if (columnAnnotation == null) {
                 continue;
             }
-            ObjRdColumnDef columnDef = createColumnDefinition(columnAnnotation, field, methods);
+            ObjRdColumnDef columnDef = createColumnDefinition(columnAnnotation, accessor, dataType.getMethods());
             columns.add(columnDef);
         }
         return columns;
     }
 
-    private static ObjRdColumnDef createColumnDefinition(ObjRdColumn objRdColumn, Field field, Method[] methods) {
+    private static ObjRdColumnDef createColumnDefinition(ObjRdColumn objRdColumn, FieldAccessor accessor, Method[] methods) {
+        Field field = accessor.getField();
         return ObjRdColumnDef.builder()
                 .title(objRdColumn.value())
                 .required(objRdColumn.required())
