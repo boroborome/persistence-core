@@ -13,7 +13,7 @@ public interface IDbAssistant<KT> {
     <T> T saveData(T data);
     <T> void saveStream(Stream<T> dataStream);
     <T> T findById(Class<T> dataType, KT id);
-    <T> Stream<T> findByFilter(Class<T> dataType, List<IFilter> filters, QueryOptions options);
+    <T> Stream<T> findByFilter(Class<T> dataType, List<? extends IFilter> filters, QueryOptions options);
     <T> T deleteById(Class<T> dataType, KT id);
-    <T> long deleteByFilter(Class<T> dataType, List<IFilter> filters, QueryOptions options);
+    <T> long deleteByFilter(Class<T> dataType, List<? extends IFilter> filters, QueryOptions options);
 }
