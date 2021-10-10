@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.12'
-	api 'com.happy3w:toolkits:0.0.7'
+	api 'com.happy3w:toolkits:0.1.1'
 //	api project(":toolkits")
 	api 'org.slf4j:slf4j-api:1.7.30'
 

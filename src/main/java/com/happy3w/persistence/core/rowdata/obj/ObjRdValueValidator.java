@@ -1,8 +1,8 @@
 package com.happy3w.persistence.core.rowdata.obj;
 
+import com.happy3w.java.ext.StringUtils;
 import com.happy3w.persistence.core.rowdata.RdRowWrapper;
 import com.happy3w.toolkits.message.MessageRecorder;
-import com.happy3w.toolkits.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

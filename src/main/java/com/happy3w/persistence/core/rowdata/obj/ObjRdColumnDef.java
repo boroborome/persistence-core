@@ -1,9 +1,9 @@
 package com.happy3w.persistence.core.rowdata.obj;
 
+import com.happy3w.java.ext.ListUtils;
 import com.happy3w.persistence.core.rowdata.ExtConfigs;
 import com.happy3w.persistence.core.rowdata.IRdColumnDef;
 import com.happy3w.persistence.core.rowdata.IRdConfig;
-import com.happy3w.toolkits.utils.ListUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

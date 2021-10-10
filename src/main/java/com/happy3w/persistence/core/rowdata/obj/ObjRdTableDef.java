@@ -1,5 +1,6 @@
 package com.happy3w.persistence.core.rowdata.obj;
 
+import com.happy3w.java.ext.StringUtils;
 import com.happy3w.persistence.core.rowdata.ExtConfigs;
 import com.happy3w.persistence.core.rowdata.IAnnotationRdConfig;
 import com.happy3w.persistence.core.rowdata.IRdConfig;
@@ -9,7 +10,6 @@ import com.happy3w.persistence.core.rowdata.simple.AbstractRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
 import com.happy3w.toolkits.reflect.FieldAccessor;
 import com.happy3w.toolkits.reflect.ReflectUtil;
-import com.happy3w.toolkits.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
