@@ -13,8 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
@@ -29,13 +29,13 @@ public class ObjRdTableDefTest {
         ObjRdColumnDef enabledField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "enabled");
         ObjRdColumnDef birthdayField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "birthday");
 
-        Assert.assertEquals("UTC+8", tableDef.getExtConfigs().getConfig(DateZoneIdCfg.class).getZoneId());
-        Assert.assertEquals(true, nameField.isRequired());
-        Assert.assertEquals(false, ageField.isRequired());
-        Assert.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatCfg.class).getFormat());
-        Assert.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatCfg.class).getFormat());
-        Assert.assertEquals("setEnabledText", enabledField.getAccessor().getSetMethod().getName());
-        Assert.assertEquals("yyyy-MM-dd", birthdayField.getExtConfigs().getConfig(DateFormatCfg.class).getFormat());
+        Assertions.assertEquals("UTC+8", tableDef.getExtConfigs().getConfig(DateZoneIdCfg.class).getZoneId());
+        Assertions.assertEquals(true, nameField.isRequired());
+        Assertions.assertEquals(false, ageField.isRequired());
+        Assertions.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatCfg.class).getFormat());
+        Assertions.assertEquals("000", ageField.getExtConfigs().getConfig(NumFormatCfg.class).getFormat());
+        Assertions.assertEquals("setEnabledText", enabledField.getAccessor().getSetMethod().getName());
+        Assertions.assertEquals("yyyy-MM-dd", birthdayField.getExtConfigs().getConfig(DateFormatCfg.class).getFormat());
     }
 
     @Test
@@ -43,10 +43,10 @@ public class ObjRdTableDefTest {
         ObjRdTableDef<SubClass> tableDef = ObjRdTableDef.from(SubClass.class);
 
         ObjRdColumnDef subNameField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "subName");
-        Assert.assertNotNull(subNameField);
+        Assertions.assertNotNull(subNameField);
 
         ObjRdColumnDef ageField = ListUtils.findFirstMatch(tableDef.getColumns(), ObjRdColumnDef::getCode, "age");
-        Assert.assertNotNull(ageField);
+        Assertions.assertNotNull(ageField);
     }
 
     @Getter

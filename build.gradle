@@ -8,6 +8,8 @@ ext {
 	description = "Some core kits for persistence use"
 	url = 'https://github.com/boroborome/persistence-core'
 	developerConnection = 'scm:git@github.com:boroborome/persistence-core.git'
+
+	junitVersion='5.8.2'
 }
 
 apply plugin: 'java-library'
@@ -27,7 +29,9 @@ dependencies {
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
-	testImplementation 'junit:junit:4.12'
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+	testCompile "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
 	testImplementation 'org.mockito:mockito-core:3.3.3'
 	testImplementation 'com.alibaba:fastjson:1.2.29'
 
@@ -36,3 +40,10 @@ dependencies {
 }
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "skipped", "failed"
+	}
+}

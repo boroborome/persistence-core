@@ -7,8 +7,8 @@ import com.happy3w.persistence.core.rowdata.page.MemReadDataPage;
 import com.happy3w.persistence.core.rowdata.simple.ListRdTableDef;
 import com.happy3w.persistence.core.rowdata.simple.MapRdTableDef;
 import com.happy3w.toolkits.message.MessageRecorder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -30,8 +30,8 @@ public class RdRowIteratorTest {
         List<Student> datas = it.map(RdRowWrapper::getData)
                 .toList();
 
-        Assert.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
-        Assert.assertEquals("[{\"name\":\"Jerry\",\"studying\":true,\"updateTime\":1608393600000,\"weight\":3.4}]",
+        Assertions.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
+        Assertions.assertEquals("[{\"name\":\"Jerry\",\"studying\":true,\"updateTime\":1608393600000,\"weight\":3.4}]",
                 JSON.toJSONString(datas));
     }
 
@@ -50,8 +50,8 @@ public class RdRowIteratorTest {
                 .map(RdRowWrapper::getData)
                 .toList();
 
-        Assert.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
-        Assert.assertEquals("[[\"Jerry\",\"\",\"3.4\",\"2020-12-20 00:00:00\",\"在校\"]]",
+        Assertions.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
+        Assertions.assertEquals("[[\"Jerry\",\"\",\"3.4\",\"2020-12-20 00:00:00\",\"在校\"]]",
                 JSON.toJSONString(datas));
     }
 
@@ -71,8 +71,8 @@ public class RdRowIteratorTest {
                 .map(RdRowWrapper::getData)
                 .toList();
 
-        Assert.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
-        Assert.assertEquals("[{\"体重\":\"3.4\",\"名字\":\"Jerry\",\"在校生\":\"在校\",\"生日\":\"\",\"更新时间\":\"2020-12-20 00:00:00\"}]",
+        Assertions.assertEquals("[]", JSON.toJSONString(recorder.getErrors()));
+        Assertions.assertEquals("[{\"体重\":\"3.4\",\"名字\":\"Jerry\",\"在校生\":\"在校\",\"生日\":\"\",\"更新时间\":\"2020-12-20 00:00:00\"}]",
                 JSON.toJSONString(datas));
     }
 }

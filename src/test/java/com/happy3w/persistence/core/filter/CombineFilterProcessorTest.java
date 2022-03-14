@@ -1,8 +1,8 @@
 package com.happy3w.persistence.core.filter;
 
 import com.happy3w.persistence.core.filter.impl.StringEqualFilter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.lang.annotation.Annotation;
@@ -21,19 +21,19 @@ public class CombineFilterProcessorTest {
         List<IFilter> filters = new ArrayList<>();
         combineFilterProcessor.collectFilters(stubFilterAnn, "stubRef", filters);
 
-        Assert.assertEquals(1, filters.size());
+        Assertions.assertEquals(1, filters.size());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void given_unknown_ref_then_throw_exception() {
-        CombineFilterProcessor combineFilterProcessor = new CombineFilterProcessor();
-        combineFilterProcessor.registProcessor(String.class, new StubProcessor());
-        Annotation stubFilterAnn = Mockito.mock(Annotation.class);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            CombineFilterProcessor combineFilterProcessor = new CombineFilterProcessor();
+            combineFilterProcessor.registProcessor(String.class, new StubProcessor());
+            Annotation stubFilterAnn = Mockito.mock(Annotation.class);
 
-        List<IFilter> filters = new ArrayList<>();
-        combineFilterProcessor.collectFilters(stubFilterAnn, 100, filters);
-
-        // Expect exception
+            List<IFilter> filters = new ArrayList<>();
+            combineFilterProcessor.collectFilters(stubFilterAnn, 100, filters);
+        });
     }
 
 
@@ -46,19 +46,21 @@ public class CombineFilterProcessorTest {
         List<IFilter> filters = new ArrayList<>();
         combineFilterProcessor.collectFilters(stubFilterAnn, Arrays.asList("stubRef"), filters);
 
-        Assert.assertEquals(1, filters.size());
+        Assertions.assertEquals(1, filters.size());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void given_unknown_collect_ref_then_throw_exception() {
-        CombineFilterProcessor combineFilterProcessor = new CombineFilterProcessor();
-        combineFilterProcessor.registCollectionProcessor(String.class, new StubProcessor());
-        Annotation stubFilterAnn = Mockito.mock(Annotation.class);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            CombineFilterProcessor combineFilterProcessor = new CombineFilterProcessor();
+            combineFilterProcessor.registCollectionProcessor(String.class, new StubProcessor());
+            Annotation stubFilterAnn = Mockito.mock(Annotation.class);
 
-        List<IFilter> filters = new ArrayList<>();
-        combineFilterProcessor.collectFilters(stubFilterAnn, Arrays.asList(100), filters);
+            List<IFilter> filters = new ArrayList<>();
+            combineFilterProcessor.collectFilters(stubFilterAnn, Arrays.asList(100), filters);
 
-        // Expect exception
+            // Expect exception
+        });
     }
 
     private static class StubProcessor implements IFilterProcessor {
