@@ -8,6 +8,10 @@ import lombok.Setter;
 public class DateRangeFilter extends AbstractStrDateRangeFilter {
     public static final String TYPE =  "date-range";
 
+    public DateRangeFilter() {
+        super(TYPE);
+    }
+
     public DateRangeFilter(String field, String start, String end) {
         super(TYPE, field, start, end, true, false, true);
     }

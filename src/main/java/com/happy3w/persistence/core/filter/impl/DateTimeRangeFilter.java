@@ -10,6 +10,10 @@ import java.util.Date;
 public class DateTimeRangeFilter extends AbstractRangeFilter<Date> {
     public static final String TYPE =  "datetime-range";
 
+    public DateTimeRangeFilter() {
+        super(TYPE);
+    }
+
     public DateTimeRangeFilter(String field, Date start, Date end) {
         super(TYPE, field, start, end, true, false, true);
     }

@@ -8,6 +8,10 @@ import lombok.Setter;
 public class NumRangeFilter<DT extends Number> extends AbstractRangeFilter<DT> {
     public static final String TYPE =  "num-range";
 
+    public NumRangeFilter() {
+        super(TYPE);
+    }
+
     public NumRangeFilter(String field, DT start, DT end) {
         super(TYPE, field, start, end, true, false, true);
     }

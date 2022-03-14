@@ -12,14 +12,16 @@ public class StringLikeInFilter extends AbstractSingleFieldFilter {
     public static final String TYPE =  "str-like-in";
     private Collection<String> refs;
 
+    public StringLikeInFilter() {
+        super(TYPE);
+    }
+
     public StringLikeInFilter(String field, Collection<String> ftValues) {
         this(field, ftValues, true);
     }
 
     public StringLikeInFilter(String field, Collection<String> ftValues, boolean isPositive) {
-        super(TYPE);
-        this.field = field;
+        super(TYPE, field, isPositive);
         this.refs = ftValues;
-        this.positive = isPositive;
     }
 }

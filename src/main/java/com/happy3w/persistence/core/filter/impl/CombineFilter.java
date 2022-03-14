@@ -16,6 +16,10 @@ public class CombineFilter extends AbstractFilter {
     private String operator;
     List<IFilter> innerFilters;
 
+    public CombineFilter() {
+        super(TYPE);
+    }
+
     public CombineFilter(String operator) {
         super(TYPE);
         this.operator = operator;

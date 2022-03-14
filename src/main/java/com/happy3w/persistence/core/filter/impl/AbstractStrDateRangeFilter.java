@@ -8,6 +8,10 @@ import lombok.Setter;
 public abstract class AbstractStrDateRangeFilter extends AbstractRangeFilter<String> {
     protected String zoneId;
 
+    public AbstractStrDateRangeFilter(String type) {
+        super(type);
+    }
+
     public AbstractStrDateRangeFilter(String type, String field, String start, String end) {
         super(type, field, start, end);
     }

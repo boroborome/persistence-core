@@ -11,14 +11,16 @@ import java.util.Collection;
 public abstract class AbstractInFilter<DT> extends AbstractSingleFieldFilter {
     protected Collection<DT> refs;
 
+    public AbstractInFilter(String type) {
+        super(type);
+    }
+
     public AbstractInFilter(String type, String field, Collection<DT> refs) {
         this(type, field, refs, true);
     }
 
     public AbstractInFilter(String type, String field, Collection<DT> refs, boolean isPositive) {
-        super(type);
-        this.field = field;
+        super(type, field, isPositive);
         this.refs = refs;
-        this.positive = isPositive;
     }
 }

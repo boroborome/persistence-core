@@ -10,6 +10,10 @@ import java.util.Collection;
 public class StringInFilter extends AbstractInFilter<String> {
     public static final String TYPE =  "str-in";
 
+    public StringInFilter() {
+        super(TYPE);
+    }
+
     public StringInFilter(String field, Collection<String> refs) {
         this(field, refs, true);
     }

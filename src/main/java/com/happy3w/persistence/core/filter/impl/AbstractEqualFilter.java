@@ -9,14 +9,15 @@ import lombok.Setter;
 public abstract class AbstractEqualFilter<DT> extends AbstractSingleFieldFilter {
     protected DT ref;
 
+    public AbstractEqualFilter(String type) {
+        super(type);
+    }
     public AbstractEqualFilter(String type, String field, DT ref) {
         this(type, field, ref, true);
     }
 
     public AbstractEqualFilter(String type, String field, DT ref, boolean isPositive) {
-        super(type);
-        this.field = field;
+        super(type, field, isPositive);
         this.ref = ref;
-        this.positive = isPositive;
     }
 }

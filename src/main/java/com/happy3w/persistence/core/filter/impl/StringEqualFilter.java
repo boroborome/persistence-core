@@ -8,6 +8,10 @@ import lombok.Setter;
 public class StringEqualFilter extends AbstractEqualFilter<String> {
     public static final String TYPE =  "str-equal";
 
+    public StringEqualFilter() {
+        super(TYPE);
+    }
+
     public StringEqualFilter(String field, String ftValue) {
         this(field, ftValue, true);
     }

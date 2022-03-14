@@ -13,6 +13,10 @@ public abstract class AbstractRangeFilter<DT> extends AbstractSingleFieldFilter 
     protected boolean includeStart;
     protected boolean includeEnd;
 
+    protected AbstractRangeFilter(String type) {
+        super(type);
+    }
+
     public AbstractRangeFilter(String type, String field, DT start, DT end) {
         this(type, field, start, end, true, false, true);
     }

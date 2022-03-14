@@ -8,6 +8,10 @@ import lombok.Setter;
 public class MonthRangeFilter extends AbstractStrDateRangeFilter {
     public static final String TYPE =  "month-range";
 
+    public MonthRangeFilter() {
+        super(TYPE);
+    }
+
     public MonthRangeFilter(String field, String start, String end) {
         super(TYPE, field, start, end, true, false, true);
     }

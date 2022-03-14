@@ -10,6 +10,9 @@ import java.util.Collection;
 public class NumInFilter<DT extends Number> extends AbstractInFilter<DT> {
     public static final String TYPE =  "num-in";
 
+    public NumInFilter() {
+        super(TYPE);
+    }
     public NumInFilter(String field, Collection<DT> refs) {
         this(field, refs, true);
     }
