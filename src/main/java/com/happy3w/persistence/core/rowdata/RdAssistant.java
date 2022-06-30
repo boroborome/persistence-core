@@ -39,14 +39,14 @@ public class RdAssistant {
      * @return 以流的形式返回所有行数据
      */
     public static <D, P extends IReadDataPage> Stream<RdRowWrapper<D>> readRows(
-            IRdTableDef<D, ?> tableDef, P page, MessageRecorder messageRecorder) {
+            P page, IRdTableDef<D, ?> tableDef, MessageRecorder messageRecorder) {
         return RdRowIterator.from(page, tableDef, messageRecorder)
                 .stream();
     }
 
     public static <D, P extends IReadDataPage> Stream<D> readObjs(
             P page, IRdTableDef<D, ?> tableDef, MessageRecorder messageRecorder) {
-        return readRows(tableDef, page, messageRecorder)
+        return readRows(page, tableDef, messageRecorder)
                 .map(RdRowWrapper::getData);
     }
 
@@ -56,13 +56,13 @@ public class RdAssistant {
         }
     }
 
-    public static <P extends IWriteDataPage> void writeList(List values, P page) {
+    public static <P extends IWriteDataPage> void writeList(P page, List values) {
         for (Object v : values) {
             page.writeValueCfg(v, null);
         }
     }
 
-    public static <P extends IWriteDataPage> void writeList(List rowValue, P page, IRdTableDef tableDef) {
+    public static <P extends IWriteDataPage> void writeList(P page, List rowValue, IRdTableDef tableDef) {
         List<IRdColumnDef> columns = tableDef.getColumns();
         int columnSize = columns.size();
         if (columnSize != rowValue.size()) {
@@ -75,7 +75,7 @@ public class RdAssistant {
         }
     }
 
-    public static <D, P extends IWriteDataPage> void writeObj(Stream<D> datas, P page, IRdTableDef<D, ?> tableDef) {
+    public static <D, P extends IWriteDataPage> void writeObj(P page, Stream<D> datas, IRdTableDef<D, ?> tableDef) {
         ExtConfigs orgConfigs = page.getExtConfigs();
         try {
             ExtConfigs configs = new ExtConfigs();
@@ -84,11 +84,11 @@ public class RdAssistant {
             page.setExtConfigs(configs);
 
             List<String> titles = ListUtils.map(tableDef.getColumns(), c -> c.getTitle());
-            writeList(titles, page);
+            writeList(page, titles);
             page.newLine();
             datas.forEach(data -> {
                 List<Object> values = tableDef.toColumnValues(data);
-                writeList(values, page, tableDef);
+                writeList(page, values, tableDef);
                 page.newLine();
             });
         } finally {
