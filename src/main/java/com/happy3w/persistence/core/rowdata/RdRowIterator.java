@@ -1,11 +1,12 @@
 package com.happy3w.persistence.core.rowdata;
 
 import com.happy3w.java.ext.ListUtils;
+import com.happy3w.java.ext.NeedFindIterator;
+import com.happy3w.java.ext.NullableOptional;
 import com.happy3w.java.ext.StringUtils;
 import com.happy3w.persistence.core.rowdata.column.ColumnInfo;
 import com.happy3w.persistence.core.rowdata.page.IReadDataPage;
-import com.happy3w.toolkits.iterator.NeedFindIterator;
-import com.happy3w.toolkits.iterator.NullableOptional;
+import com.happy3w.toolkits.iterator.IEasyIterator;
 import com.happy3w.toolkits.message.MessageFilter;
 import com.happy3w.toolkits.message.MessageRecorder;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> {
+public class RdRowIterator<T> extends NeedFindIterator<RdRowWrapper<T>> implements IEasyIterator<RdRowWrapper<T>> {
     private final IReadDataPage<?> page;
     private IRdTableDef<T, ? extends IRdColumnDef> tableDef;
     protected MessageRecorder messageRecorder;
