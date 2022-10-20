@@ -1,6 +1,6 @@
 
 group = 'com.happy3w'
-version = '1.0.0'
+version = '1.0.1'
 ext {
 	artifactId = "persistence-core"
 
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.12'
-	api 'com.happy3w:toolkits:0.1.1'
+	api 'com.happy3w:toolkits:1.0.3'
 //	api project(":toolkits")
 	api 'org.slf4j:slf4j-api:1.7.30'
 
