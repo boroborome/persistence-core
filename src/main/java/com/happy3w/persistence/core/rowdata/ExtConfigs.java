@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -48,5 +50,21 @@ public class ExtConfigs {
             builder.append(',');
         }
         return builder.toString();
+    }
+
+    public static ExtConfigs mergeArray(ExtConfigs... configs) {
+        return mergeAll(Arrays.asList(configs));
+    }
+
+    public static ExtConfigs mergeAll(List<ExtConfigs> configs) {
+        ExtConfigs resultConfigs = new ExtConfigs();
+        for (int i = configs.size() - 1; i >= 0; i--) {
+            ExtConfigs config = configs.get(i);
+            if (config == null) {
+                continue;
+            }
+            resultConfigs.merge(config);
+        }
+        return resultConfigs;
     }
 }
