@@ -1,8 +1,10 @@
 package com.happy3w.persistence.core.filter;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public abstract class AbstractSingleFieldFilter extends AbstractFieldFilter implements IFieldFilter {
     protected String field;
 
